@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "245585434359",
+    "firebase_url": "https://rabbitchat-2746d.firebaseio.com",
+    "project_id": "rabbitchat-2746d",
+    "storage_bucket": "rabbitchat-2746d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245585434359:android:88fec5c4ec8cae3a03a5f2",
+        "android_client_info": {
+          "package_name": "com.example.rabbitchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245585434359-5uc4j02t9aqg7ci6t40gbckm2jqauhhc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rabbitchat",
+            "certificate_hash": "4642f2820acfb38095c840981090d58a1eb165b9"
+          }
+        },
+        {
+          "client_id": "245585434359-48sl4ft9l5cjicht5hhd9j46m0d02l8k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzrjzfPzViQKCUEzqonIHv1UsF8mSXcEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245585434359-48sl4ft9l5cjicht5hhd9j46m0d02l8k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
