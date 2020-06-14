@@ -1,51 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@color/HomeScreenStyle"
+    android:id="@+id/activity_main">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@color/colorPrimary"
-        android:textSize="16sp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/btnSend">
-
-        <EditText
-            android:id="@+id/messageField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/edit_text_hint"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ListView
-        android:id="@+id/list_of_messages"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/text_layout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_weight="1"
+        android:paddingBottom="16dp"/>
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/inputID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_text_iduser_hint"
+        android:textSize="16sp"
+        android:paddingBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/InputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_text_hint"
+        android:textSize="16sp"
+        android:paddingBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnMSG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/send_button_name"
+        android:background="@color/colorPrimary"/>
+
+</LinearLayout>

@@ -1,113 +1,115 @@
 package com.example.rabbitchat;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
+import android.widget.Toast;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-
-import android.text.format.DateFormat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int SIGN_IN_CODE = 1;
+    private static int LENGTH_ID = 4;
+    private static int MAX_MESSAGE_LENGTH = 200;
 
-    private RelativeLayout activity_main;
-    private FloatingActionButton sendBtn;
+    private Button btnMSG;
+    private EditText inputID, InputText;
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SIGN_IN_CODE) {
-            if(requestCode == RESULT_OK) {
-                Snackbar.make(activity_main,"Вы авторизованы", Snackbar.LENGTH_LONG).show();
-                displayAllMessages();
-            }
-            else {
-                Snackbar.make(activity_main,"Вы авторизованы", Snackbar.LENGTH_LONG).show();
-                finish();
-            }
-        }
-    }
+    DatabaseReference ref;
+
+    private FirebaseRecyclerOptions<Message> options;
+    private FirebaseRecyclerAdapter<Message, ViewHolder> adapter;
+
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        activity_main = findViewById(R.id.activity_main);
-        sendBtn = findViewById(R.id.btnSend);
-        sendBtn.setOnClickListener(new View.OnClickListener() {
+        inputID = findViewById(R.id.inputID);
+        InputText = findViewById(R.id.InputText);
+
+        btnMSG = findViewById(R.id.btnMSG);
+
+        ref = FirebaseDatabase.getInstance().getReference().child("Messages");
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        btnMSG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText textField = findViewById(R.id.messageField);
 
-                if(textField.getText().toString() == "") {
+                if(inputID.length() != LENGTH_ID) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Допустимое количество символов ID ("+ LENGTH_ID +")",
+                            Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return;
                 }
 
-                FirebaseDatabase.getInstance().getReference().push().setValue(
-                        new Message(
-                                FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                textField.getText().toString()
-                        )
-                );
-                textField.setText("");
+                if(InputText.length() > MAX_MESSAGE_LENGTH) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Ваше сообщение привысило допустимый лимит символов ("+ MAX_MESSAGE_LENGTH +")",
+                            Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+
+                if(InputText.length() == 0) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Вы не ввели сообщение",
+                            Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+
+                int ID = Integer.parseInt(inputID.getText().toString());
+                String MSG = InputText.getText().toString();
+
+                String key = ref.push().getKey();
+                ref.child(key).child("ID").setValue(ID);
+                ref.child(key).child("MSG").setValue(MSG);
+
+                InputText.setText("");
             }
         });
 
-        //Пользователь не авторизован
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), SIGN_IN_CODE);
-        } else {
-            Snackbar.make(activity_main, "Вы авторизованы", Snackbar.LENGTH_LONG).show();
-            displayAllMessages();
-        }
-
-        displayAllMessages();
-
-    }
-
-    private void displayAllMessages() {
-        ListView lestOfMessages = findViewById(R.id.list_of_messages);
-
-        Query query = FirebaseDatabase.getInstance().getReference().child("RabbitChat");
-        FirebaseListOptions<Message> options = new FirebaseListOptions.Builder<Message>().setQuery(query, Message.class).setLayout(R.layout.item_message).build();
-
-        FirebaseListAdapter<Message> adapter = new FirebaseListAdapter<Message>(options) {
+        options = new FirebaseRecyclerOptions.Builder<Message>().setQuery(ref, Message.class).build();
+        adapter = new FirebaseRecyclerAdapter<Message, ViewHolder>(options) {
             @Override
-            protected void populateView(View v, Message model, int position) {
-                TextView msg_user, msg_text, msg_time;
+            protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int i, @NonNull Message message) {
+                viewHolder.messageViewID.setText("ID: " + Integer.toString(message.getID()));
+                viewHolder.messageViewText.setText("msg: " + message.getMSG());
+            }
 
-                msg_user = (TextView)v.findViewById(R.id.message_user);
-                msg_text = (TextView)v.findViewById(R.id.message_text);
-                msg_time = (TextView)v.findViewById(R.id.message_time);
-
-                msg_user.setText(model.getUserName());
-                msg_text.setText(model.getTextMessage());
-                msg_time.setText(DateFormat.format("dd-mm-yyyy HH:mm:ss", model.getMessageTime()));
-
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view_layout, parent, false);
+                return new ViewHolder(v);
             }
         };
-        lestOfMessages.setAdapter(adapter);
+
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
+
     }
 }

@@ -1,42 +1,30 @@
 package com.example.rabbitchat;
 
-import java.util.Date;
+public class Message {
 
-public class Message{
+    private int ID;
+    private String MSG;
 
-    public String userName;
-    public String textMessage;
-    public long messageTime;
+    Message() {}
 
-    public Message(){}
-
-    public Message(String userName, String textMessage){
-        this.userName = userName;
-        this.textMessage = textMessage;
-        this.messageTime = new Date().getTime();
+    Message(int ID, String MSG) {
+        this.ID = ID;
+        this.MSG = MSG;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getID() {
+        return ID;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public String getTextMessage() {
-        return textMessage;
+    public String getMSG() {
+        return MSG;
     }
 
-    public void setTextMessage(String textMessage) {
-        this.textMessage = textMessage;
-    }
-
-    public long getMessageTime() {
-        return messageTime;
-    }
-
-    public void setMessageTime(long messageTime) {
-        this.messageTime = messageTime;
+    public void setMSG(String messageMSG) {
+        this.MSG = messageMSG;
     }
 }

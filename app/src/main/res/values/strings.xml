@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">RabbitChat</string>
+    <string name="send_button_name">Отправить</string>
     <string name="edit_text_hint">Введите сообщение...</string>
+    <string name="edit_text_iduser_hint">Придумайте ID</string>
 </resources>
