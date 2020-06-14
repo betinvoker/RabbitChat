@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#CDCDC0</color>
     <color name="colorPrimaryDark">#626D71</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#CDCDC0</color>
     <color name="HomeScreenStyle">#DDBC95</color>
     <color name="MessageStyle">#D6B091</color>
 </resources>
