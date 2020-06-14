@@ -3,8 +3,10 @@ package com.example.rabbitchat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -44,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         mEditTextMessage = findViewById(R.id.message_input);
         mMessagesRecycler = findViewById(R.id.messages_recycler);
 
+        mMessagesRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        final DataAdapter dataAdapter = new DataAdapter(this, messages);
+
+        mMessagesRecycler.setAdapter(dataAdapter);
+
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String msg = dataSnapshot.getValue(String.class);
                 messages.add(msg);
+                dataAdapter.notifyDataSetChanged();
+                mMessagesRecycler.smoothScrollToPosition(messages.size());
             }
 
             @Override
