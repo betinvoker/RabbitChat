@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/HomeScreenStyle">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages_recycler"
@@ -24,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edit_text_hint"
-            android:inputType="text"
             android:textSize="16sp" />
 
         <Button
@@ -32,7 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="@string/send_button_name" />
+            android:text="@string/send_button_name"
+            android:background="@color/colorPrimary"/>
 
     </LinearLayout>
 

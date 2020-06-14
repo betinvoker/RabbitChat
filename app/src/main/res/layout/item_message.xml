@@ -11,12 +11,13 @@
         android:padding="4dp">
 
         <TextView
+            android:id="@+id/myMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="text"
             android:textSize="16dp"
             android:padding="8dp"
-            android:id="@+id/myMessage"/>
+            android:background="@color/MessageStyle"/>
 
     </androidx.cardview.widget.CardView>
 
