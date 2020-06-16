@@ -1,23 +1,22 @@
 package com.example.rabbitchat;
 
 public class Message {
-
-    private int ID;
+    private String  NAME;
     private String MSG;
 
     Message() {}
 
-    Message(int ID, String MSG) {
-        this.ID = ID;
+    Message(String  NAME, String MSG) {
+        this.NAME = NAME;
         this.MSG = MSG;
     }
 
-    public int getID() {
-        return ID;
+    public String  getNAME() {
+        return NAME;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(String  messageNAME) {
+        this.NAME = messageNAME;
     }
 
     public String getMSG() {

@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:245585434359:android:88fec5c4ec8cae3a03a5f2",
+        "mobilesdk_app_id": "1:245585434359:android:4cc257d6757250ab03a5f2",
         "android_client_info": {
           "package_name": "com.example.rabbitchat"
         }

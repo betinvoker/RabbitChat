@@ -3,4 +3,6 @@
     <string name="send_button_name">Отправить</string>
     <string name="edit_text_hint">Введите сообщение...</string>
     <string name="edit_text_iduser_hint">Придумайте ID</string>
+    <string name="text_button_setting">Добавить</string>
+    <string name="text_edit_setting">Введите свой псевдоним...</string>
 </resources>
