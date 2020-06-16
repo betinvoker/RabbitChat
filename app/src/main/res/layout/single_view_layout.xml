@@ -8,11 +8,20 @@
 
     <TextView
         android:id="@+id/viewName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="14dp"
+        android:textSize="16dp"
         android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/viewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="12dp"
+        android:textStyle="normal|bold"
+        android:layout_alignParentRight="true"/>
 
     <TextView
         android:id="@+id/viewText"
@@ -20,6 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/viewName"
         android:textSize="14dp"
-        android:textStyle="normal|bold"/>
+        android:textStyle="normal"/>
 
 </RelativeLayout>

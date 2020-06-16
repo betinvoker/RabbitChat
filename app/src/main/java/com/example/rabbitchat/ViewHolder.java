@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView messageViewName, messageViewText;
+    TextView messageViewName, messageViewText, messageViewTime;
 
     public ViewHolder(@NonNull View itemView){
         super(itemView);
 
         messageViewName = itemView.findViewById(R.id.viewName);
         messageViewText = itemView.findViewById(R.id.viewText);
+        messageViewTime = itemView.findViewById(R.id.viewTime);
     }
 }

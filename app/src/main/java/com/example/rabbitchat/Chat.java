@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +22,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Chat extends AppCompatActivity {
 
@@ -47,6 +54,10 @@ public class Chat extends AppCompatActivity {
 
         btnMSG = findViewById(R.id.btnMSG);
 
+        final Date currentDate = new Date();
+        final DateFormat timeFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy", Locale.getDefault());
+        final String timeText = timeFormat.format(currentDate);
+
         ref = FirebaseDatabase.getInstance().getReference().child("Messages");
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -58,14 +69,16 @@ public class Chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(FullCheck(InputText) == true) return;
+                if(checkingMessageLength(InputText) == true) return;
 
                 String NAME = username;
                 String MSG = InputText.getText().toString();
+                String TIME = timeText;
 
                 String key = ref.push().getKey();
                 ref.child(key).child("NAME").setValue(NAME);
                 ref.child(key).child("MSG").setValue(MSG);
+                ref.child(key).child("TIME").setValue(TIME);
 
                 InputText.setText("");
             }
@@ -75,8 +88,9 @@ public class Chat extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<Message, ViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int i, @NonNull Message message) {
-                viewHolder.messageViewName.setText("name: " + message.getNAME());
-                viewHolder.messageViewText.setText("msg: " + message.getMSG());
+                viewHolder.messageViewName.setText(message.getNAME());
+                viewHolder.messageViewText.setText(message.getMSG());
+                viewHolder.messageViewTime.setText(message.getTIME());
             }
 
             @NonNull
@@ -88,14 +102,16 @@ public class Chat extends AppCompatActivity {
         };
 
         adapter.startListening();
+
         recyclerView.setAdapter(adapter);
     }
 
-    private boolean FullCheck(EditText inputText) {
+    private boolean checkingMessageLength(EditText inputText) {
 
         if(InputText.length() > MAX_MESSAGE_LENGTH) {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Ваше сообщение привысило допустимый лимит символов ("+ MAX_MESSAGE_LENGTH +")",
+                    "Ваше сообщение привысило допустимый лимит символов ("+ MAX_MESSAGE_LENGTH +")." +
+                            "\nВы ввели (" + InputText.length() + ").",
                     Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
